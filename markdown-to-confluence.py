@@ -18,6 +18,7 @@ LANGUAGE_MAP = {
     ".css": "css",
     ".md": "markdown",
 }
+# this should just be an exercise in how to parse things.  DONT USE THIS - USE PANDOC INSTEAD.
 
 def detect_language(filename, fallback="bash"):
     _, ext = os.path.splitext(filename)
