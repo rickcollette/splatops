@@ -36,7 +36,10 @@ def extract_code_blocks(text):
         filename = os.path.basename(m.group("filename"))
         lang = detect_language(filename, m.group("lang") or "bash")
         code = m.group("code").strip()
-        confluence_block = f"h3. {filename}\n{{code:title={filename}|language={lang}|linenumbers=true|collapse=false}}\n{code}\n{{code}}"
+        confluence_block = f"h3. {filename}\n" \
+               f"{{code:title={filename}|language={lang}|linenumbers=true|collapse=false}}\n" \
+               f"{code}\n" \
+               f"{{code}}"
         code_segments.append({
             "type": "code",
             "content": confluence_block
@@ -57,7 +60,7 @@ def convert_markdown_to_confluence(md_text):
     md_text = re.sub(r'## (.+)', r'h2. \1', md_text)
     md_text = re.sub(r'# (.+)', r'h1. \1', md_text)
 
-    # Convert emphasis
+    # Convert emphasis (bold, italic)
     md_text = re.sub(r'\*\*\*(.+?)\*\*\*', r'_*\1*_', md_text)
     md_text = re.sub(r'\*\*(.+?)\*\*', r'*\1*', md_text)
     md_text = re.sub(r'\*(.+?)\*', r'_\1_', md_text)
@@ -82,7 +85,7 @@ def convert_markdown_to_confluence(md_text):
 
 def main():
     if len(sys.argv) != 3:
-        print("Usage: python markdown_to_confluence_safe.py input.md output.txt")
+        print("Usage: python markdown_to_confluence_full_macro_v2.py input.md output.txt")
         sys.exit(1)
 
     input_file, output_file = sys.argv[1], sys.argv[2]
@@ -103,7 +106,7 @@ def main():
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write("\n\n".join(final_output))
 
-    print(f"[✓] Markdown converted safely to Confluence wiki format: {output_file}")
+    print(f"[✓] Converted to Confluence wiki format: {output_file}")
 
 if __name__ == "__main__":
     main()
